@@ -2,34 +2,33 @@
 
 import openai
 
-api_key = "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"
+api_key = "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"
 
 # grocery list placeholder
 
 file_path = "/Users/gpasion/Documents/GitHub/326-Final-Project/step1_output_and_step2_input.txt"
-grocery_list = []
+
 
 with open(file_path, 'r') as file:
-    for line in file:
-        grocery_list.append(line.split())
+    contents = file.read()
 
-print(grocery_list)
+print(contents)
 
+grocery_list = contents.split()
 
-
-request = f"Based on these ingredient {', '.join(grocery_list)}, suggest some recipes"
+request = f"Based on these ingredient {' '.join(grocery_list)}, create a recipe in the order recipe title, cook time, easy/intermediate/advanced difficulty, kitchen utensils, ingredient list, and step by step instructions"
 
 openai.api_key = api_key
 
-response = openai.Completion.create(
-    engine = "davinci",
-    prompt = request,
-    max_tokens = 150
+completion = openai.ChatCompletion.create(
+  model="gpt-3.5-turbo",
+  messages = [{"role": "user", "content": request}],
+  max_tokens = 2048
 )
 
-recipes = response.choices[0].text
+print(completion)
+
 
 # will change this into a method with a return later just experimenting for now
-print(recipes)
 
 # have id associating with recipe folder (from step 1)
