@@ -15,6 +15,8 @@ with open(file_path, 'r') as file:
 
 print(grocery_list)
 
+
+
 request = f"Based on these ingredient {', '.join(grocery_list)}, suggest some recipes"
 
 openai.api_key = api_key
@@ -29,3 +31,5 @@ recipes = response.choices[0].text
 
 # will change this into a method with a return later just experimenting for now
 print(recipes)
+
+# have id associating with recipe folder (from step 1)

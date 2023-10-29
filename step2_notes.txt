@@ -1,7 +1,7 @@
 You use txt file with groceries list as an input. 
 Please generate 3 files for different levels/cooking time.
 
-Easy: easy recepie, 15-45 min to cook
+Easy: easy recipe, 15-45 min to cook
 Intermediate: more intresting recepies, 45-90 min to cook
 Advanced: advanced/exotic recepies, 90+ min to cook
 
@@ -15,4 +15,9 @@ Eash step has to be clearly separated
 
 Save as text files in designated folder
 
-Optioanl: use saved txt files to genearte an AI image and save it
+Optional: use saved txt files to genearte an AI image and save it
+
+3 recipe folders
+- easy, id=1
+- medium, id=2
+- hard, id=3
