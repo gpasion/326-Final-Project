@@ -1,0 +1,18 @@
+You use txt file with groceries list as an input. 
+Please generate 3 files for different levels/cooking time.
+
+Easy: easy recepie, 15-45 min to cook
+Intermediate: more intresting recepies, 45-90 min to cook
+Advanced: advanced/exotic recepies, 90+ min to cook
+
+It's up to you to decide how output for the step will look like, but it needs to have clear separation for following segments:
+Name and short description(just a few sentences)
+Time to cook
+Complexity
+Kitchen utensils needed
+List of ingredients and its quanitty along with measure units, serving size - 2
+Eash step has to be clearly separated
+
+Save as text files in designated folder
+
+Optioanl: use saved txt files to genearte an AI image and save it
