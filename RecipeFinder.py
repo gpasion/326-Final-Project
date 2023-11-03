@@ -2,7 +2,7 @@
 
 import openai
     
-def generate_recipe(ingredients):
+def generate_recipe():
     """Will take in the ingredients from the ingredients input and return a step by step recipe
     after communicating with the GPT api
 
@@ -13,31 +13,38 @@ def generate_recipe(ingredients):
 
     # ingredient list placeholder
 
-    file_path = "/Users/gpasion/Documents/GitHub/326-Final-Project/step1_output_and_step2_input.txt"
+    input_path = "cooking_list.txt"
 
-    with open(file_path, 'r') as file:
+    with open(input_path, 'r') as file:
         contents = file.read()
 
     grocery_list = contents.split()
 
-    request = f"Based on these ingredient {' '.join(grocery_list)}, create a recipe in the order recipe title, cook time, easy/intermediate/advanced difficulty, kitchen utensils, ingredient list, and step by step instructions"
+    options_dict = [("easy", "15-45"), ("intermediate", "45-90"), ("advanced", "90+")]
 
-    openai.api_key = api_key
+    for difficulty, time in options_dict:
+      request = f"Please use only ingredients:{' '.join(grocery_list)}, create an {difficulty} recipe that takes {time} to cook, the recipe needs to include following segmnets in order title, cook time, difficulty, kitchen utensils, ingredient section should include complete list of ingredients used in oz, and step by step instructions. Please keep an empty line in between of each section."
 
-    completion = openai.ChatCompletion.create(
-      model="gpt-3.5-turbo",
-      messages = [{"role": "user", "content": request}],
-      max_tokens = 2048
-    )
+      openai.api_key = api_key
 
-    print(completion)
-    # return completion
-    return completion
+      completion = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages = [{"role": "user", "content": request}],
+        max_tokens = 2048
+      )
+
+      recipe_text = completion.choices[0].message['content']
+
+      # Writing the output to a file
+      file_name = f"recipes/{difficulty}_recipe.txt"
+      with open(file_name, 'w') as file:
+          file.write(recipe_text)
+
+      print(f"Recipe generated for {difficulty}. Check {file_name} for the recipe.")
 
 
+generate_recipe()
 
 
 
 # will change this into a method with a return later just experimenting for now
-
-# have id associating with recipe folder (from step 1)

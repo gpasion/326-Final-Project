@@ -16,7 +16,7 @@ broccoli
 carrot
 """
 
-model_path = "C:/Users/danyi/repo/326-Final-Project/input_module/efficientdet_lite2.tflite"
+model_path = "input_module/efficientdet_lite2.tflite"
 IMAGE_FILE = "input_image/1.jpeg"
 
 def detect_groceries(image_filename):
@@ -70,7 +70,7 @@ def save_list_to_file(grocery_list):
     while not confirmed:
         confirm = input("Do you want to save the list to a file? (y/n): ").lower()
         if confirm == 'y':
-            file_name = input("Enter the file name to save the list (e.g., grocery_list.txt): ")
+            file_name = "grocery_list_from_img.txt"
             with open(file_name, 'w') as file:
                 file.write("\n".join(grocery_list))
             print("List saved as", file_name)
@@ -100,7 +100,7 @@ while True:
             print("-", item)
         save_list_to_file(grocery_list)
         pass
-    elif image_filename == "Exit":
+    elif image_filename == "exit":
         print("Exiting")
         break
     else:
