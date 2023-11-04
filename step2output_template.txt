@@ -1,5 +1,9 @@
 Recipe Title
+<<<<<<< HEAD
 Chicken Salad
+=======
+Chicken and Vegetable Stir Fry
+>>>>>>> 6666877e3a665a255d2d5d943959f9901445d541
 
 Cook Time
 45 minutes
