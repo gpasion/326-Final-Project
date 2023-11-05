@@ -51,18 +51,19 @@ def check_image_existence(filename):
         return False
 
 # Function to get the list of groceries
-def get_grocery_list():
-    grocery_list = []
+def get_grocery_list(grocery_list):
     print("Enter 'Done' when you finish entering the groceries.")
     while True:
-        item = input("Enter a grocery item or type 'Done': ").strip()
+        item = input("Enter a grocery item, enter 'Remove' to remove item from list or type 'Done' when done entering items: ").strip()
         if item.lower() == 'done':
             break
-        grocery_list.append(item)
+        if item.lower() == "remove":
+            grocery_list = remove_item(grocery_list)
+        grocery_list.append(item.lower())
         print("\nCurrent List of Groceries:")
         for i in grocery_list:
             print("-", i)
-    return grocery_list
+    save_list_to_file(grocery_list)
 
 # Function to save the grocery list to a text file
 def save_list_to_file(grocery_list):
@@ -70,13 +71,14 @@ def save_list_to_file(grocery_list):
     while not confirmed:
         confirm = input("Do you want to save the list to a file? (y/n): ").lower()
         if confirm == 'y':
-            file_name = "grocery_list_from_img.txt"
+            file_name = "grocery_list.txt"
             with open(file_name, 'w') as file:
                 file.write("\n".join(grocery_list))
             print("List saved as", file_name)
             confirmed = True
         elif confirm == 'n':
             print("List not saved. You can modify the list.")
+            get_grocery_list(grocery_list)
             break
         elif confirm == 'exit':
             confirmed = True
@@ -84,24 +86,9 @@ def save_list_to_file(grocery_list):
         else:
             print("Invalid input. Please enter 'y' to confirm or 'n' to re-enter the list or 'exit' to exit the application.")
 
-# Main part of the code
-
-while True:
-    image_filename = input("Enter the image file name or 'None': ")
-    if check_image_existence(image_filename):
-        detected_groceries_list = detect_groceries(image_filename)
-        save_list_to_file(detected_groceries_list)
-        pass
-    elif image_filename == "None":
-        grocery_list = get_grocery_list()
-        if 'exit' not in grocery_list:
-            print("\nFinal List of Groceries:")
-        for item in grocery_list:
-            print("-", item)
-        save_list_to_file(grocery_list)
-        pass
-    elif image_filename == "exit":
-        print("Exiting")
-        break
-    else:
-        print("Image doesn't exist.")
+def remove_item(grocery_list):
+    for i in grocery_list:
+        print("-", i)
+    item_to_remove = input("Please enter item to remove: ")
+    grocery_list.remove(item_to_remove.lower())
+    return grocery_list

@@ -13,7 +13,7 @@ def generate_recipe():
 
     # ingredient list placeholder
 
-    input_path = "cooking_list.txt"
+    input_path = "grocery_list.txt"
 
     with open(input_path, 'r') as file:
         contents = file.read()
@@ -41,9 +41,6 @@ def generate_recipe():
           file.write(recipe_text)
 
       print(f"Recipe generated for {difficulty}. Check {file_name} for the recipe.")
-
-
-generate_recipe()
 
 
 
