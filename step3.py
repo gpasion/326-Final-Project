@@ -1,4 +1,4 @@
-#import csv
+import csv
 import re
 
 # Regular expression pattern to match lines starting with a number (indicating quantities)
@@ -35,4 +35,38 @@ for file_path in file_paths:
 
 # Print the extracted ingredients for each recipe
 for recipe, ingredients in recipes.items():
-    print(f'{recipe}: {ingredients}')
+    items = (f'{recipe}: {ingredients}')
+    print (items)
+
+
+# Assuming items list is in the format 'Easy: [...]'
+items_list = items.split(": ")[1][1:-1]  # Extracting the list of ingredients from the string
+
+# Extract individual ingredients from the formatted string
+ingredient_lines = re.findall(r"'(.*?)'", items_list)
+
+# Dictionary to store item details from CSV file
+item_details = {}
+
+# Read data from CSV file and populate item_details dictionary
+with open('Food_Database.csv', 'r') as csvfile:
+    csv_reader = csv.DictReader(csvfile)
+    for row in csv_reader:
+        for ingredient in ingredient_lines:
+            # Extract item name from the ingredient line
+            extracted_item_name = re.match(r'^([\w\s]+)', ingredient).group(1)
+            if item_name.lower() == extracted_item_name.lower():
+                item_details[item_name] = {
+                    'price': float(row['price']),
+                    'amount': row['amount'],
+                    'url': row['link']
+                }
+
+# Print the retrieved item details
+for ingredient in ingredient_lines:
+    item_name, amount = re.match(r'^([\w\s]+)', ingredient).group(1), re.search(r'\((\d+\s?\w+)\)', ingredient).group(1)
+    if item_name in item_details:
+        details = item_details[item_name]
+        print(f"Item: {item_name}, Amount: {amount}, Price: {details['price']}, URL: {details['url']}")
+    else:
+        print(f"Item: {item_name}, Amount: {amount}, Price: None, URL: None")
