@@ -39,11 +39,20 @@ for recipe, ingredients in recipes.items():
     print (items)
 
 
-# Assuming items list is in the format 'Easy: [...]'
-items_list = items.split(": ")[1][1:-1]  # Extracting the list of ingredients from the string
 
-# Extract individual ingredients from the formatted string
-ingredient_lines = re.findall(r"'(.*?)'", items_list)
+import csv
+import re
+
+# Your list of items
+items_list = [
+    '8 oz chicken breast, boneless and skinless (8 oz)',
+    '2 tbsp butter (1oz)',
+    '1 medium-sized onion, diced (8 oz)',
+    '1 bell pepper, diced (6 oz)',
+    '2 medium-sized potatoes, peeled and cubed (6 oz)',
+    '14 oz crushed tomatoes (14 oz)',
+    '1 cup sour cream (8 oz)'
+]
 
 # Dictionary to store item details from CSV file
 item_details = {}
@@ -52,21 +61,21 @@ item_details = {}
 with open('Food_Database.csv', 'r') as csvfile:
     csv_reader = csv.DictReader(csvfile)
     for row in csv_reader:
-        for ingredient in ingredient_lines:
-            # Extract item name from the ingredient line
-            extracted_item_name = re.match(r'^([\w\s]+)', ingredient).group(1)
-            if item_name.lower() == extracted_item_name.lower():
-                item_details[item_name] = {
-                    'price': float(row['price']),
-                    'amount': row['amount'],
-                    'url': row['link']
-                }
+        item_name = row['item_name'].lower()
+        item_details[item_name] = {
+            'price': row['price'],
+            'url': row['link(url)']
+        }
 
-# Print the retrieved item details
-for ingredient in ingredient_lines:
-    item_name, amount = re.match(r'^([\w\s]+)', ingredient).group(1), re.search(r'\((\d+\s?\w+)\)', ingredient).group(1)
-    if item_name in item_details:
-        details = item_details[item_name]
-        print(f"Item: {item_name}, Amount: {amount}, Price: {details['price']}, URL: {details['url']}")
-    else:
-        print(f"Item: {item_name}, Amount: {amount}, Price: None, URL: None")
+# Format and print the retrieved item details
+for item in items_list:
+    item_name, amount = re.match(r'^([\w\s]+)', item).group(1).strip(), re.search(r'\(([^)]+)\)', item).group(1)
+    found = False
+    for key in item_details.keys():
+        if key in item_name:
+            found = True
+            details = item_details[key]
+            print(f"Item: {item_name}, Price: {details['price']}, Amount: {amount}, URL: {details['url']}")
+            break
+    if not found:
+        print(f"Item: {item_name}, Price: None, Amount: {amount}, URL: None")
