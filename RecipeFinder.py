@@ -2,6 +2,8 @@
 
 import openai
     
+grocery_list_copy = ""
+
 def generate_recipe():
     """Will take in the ingredients from the ingredients input and return a step by step recipe
     after communicating with the GPT api
@@ -19,6 +21,8 @@ def generate_recipe():
         contents = file.read()
 
     grocery_list = contents.split()
+
+    grocery_list_copy = grocery_list 
 
     options_dict = [("easy", "15-45"), ("intermediate", "45-90"), ("advanced", "90+")]
 
@@ -45,3 +49,5 @@ def generate_recipe():
 
 
 # will change this into a method with a return later just experimenting for now
+generate_recipe()
+
