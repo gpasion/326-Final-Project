@@ -64,7 +64,7 @@ with open('Food_Database.csv', 'r') as csvfile:
         item_name = row['item_name'].lower()
         item_details[item_name] = {
             'price': row['price'],
-            'url': row['link(url)']
+            'url': row['url']
         }
 
 # Format and print the retrieved item details
