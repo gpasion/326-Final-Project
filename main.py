@@ -20,3 +20,10 @@ while True:
         break
     else:
         print("Image doesn't exist.")
+
+
+# TODO: run parse_recipe_from_file from RecepieFinder for each file from recepies creating 3 object of recepies. 
+
+# TODO: use those objects to display info to user and ask to make a choice. Show cost per serving and ask home nay servings user would like. 
+
+# TODO: based on user choice of recepie and num of servings do the math for the object and display/safe to file final recepie with UPDATED info for number of servings

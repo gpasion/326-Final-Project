@@ -1,4 +1,4 @@
-item_id,item_name,price,amount(lbs/oz/ct(count)),link(url)
+item_id,item_name,price,amount,url
 242870,Roma Tomato,$4.99,3lbs,https://www.bjs.com/product/roma-tomatoes-3-lbs/3000000000000217919
 159450,Cello Carrots,$3.99,5lbs,https://www.bjs.com/product/cello-carrots-5-lbs/3000000000000215445
 985451,Ground Beef,$15.49,3lbs,https://www.bjs.com/product/good-nature-85-ground-beef--3-lbs/3000000000001822361
