@@ -1,4 +1,0 @@
-Need to generate file with list of products, quanitty needed, price per measure unit and link to buy.
-
-Tomato,4 oz,0.2375,link 
-Potato,8 oz,0.1375,link 

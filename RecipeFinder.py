@@ -4,11 +4,8 @@ import openai
 import re
 import pandas as pd
     
-grocery_list_copy = ""
-input_path = "grocery_list.txt"
-csv_path = "Food_Database.csv"
 
-def generate_recipe():
+def generate_recipe(input_path):
     """Will take in the ingredients from the ingredients input and return a step by step recipe
     after communicating with the GPT api
 
@@ -24,12 +21,10 @@ def generate_recipe():
 
     grocery_list = contents.split()
 
-    grocery_list_copy = grocery_list 
-
     options_dict = [("easy", "15-45"), ("intermediate", "45-90"), ("advanced", "90+")]
 
     for difficulty, time in options_dict:
-      request = f"Please use only ingredients:{' '.join(grocery_list)}, create an {difficulty} recipe that takes {time} to cook, the recipe needs to include following segmnets in order title, cook time, difficulty, kitchen utensils(please use hyphen), ingredient section should include complete list of ingredients used in oz and have format '- <weight in oz as a number> OZ of <ingridient name>', and step by step instructions. Please keep an empty line in between of each section."
+      request = f"Please use only ingredients:{' '.join(grocery_list)}, create an {difficulty} recipe that takes {time} to cook, the recipe needs to include following segmnets in order title, cook time, difficulty, servings(please use 1 serving as default), kitchen utensils(please use hyphen), ingredient section should include complete list of ingredients used in oz and have format '- <weight in oz as a number> OZ of <ingridient name>', and step by step instructions. Please keep an empty line in between of each section."
 
       openai.api_key = api_key
 
@@ -48,11 +43,9 @@ def generate_recipe():
 
       print(f"Recipe generated for {difficulty}. Check {file_name} for the recipe.")
 
-def create_recepie_object():
-    pass
 
 class Recipe:
-    def __init__(self, title, cook_time, difficulty, utensils, ingredients, instructions, shopping_list):
+    def __init__(self, title, cook_time, difficulty, servings, utensils, ingredients, instructions, shopping_list):
         """
         Initialize a Recipe object.
 
@@ -68,17 +61,19 @@ class Recipe:
         self.title = title
         self.cook_time = cook_time
         self.difficulty = difficulty
+        self.servings = servings
         self.utensils = utensils
         self.ingredients = ingredients
         self.instructions = instructions
         self.shopping_list = shopping_list
+        self.cost_per_serving = self.calculate_cost_per_serving()
 
     def __str__(self):
-        recipe_str = f"Recipe Details:\nTitle: {self.title}\nCook Time: {self.cook_time} minutes\nDifficulty: {self.difficulty}\n"
+        recipe_str = f"Recipe Details:\nTitle: {self.title}\nCook Time: {self.cook_time} minutes\nDifficulty: {self.difficulty}\nServings: {self.servings}\nCost per serving: {self.cost_per_serving}\n"
         recipe_str += f"Utensils: {', '.join(self.utensils)}\n"
         recipe_str += f"Ingredients: {', '.join(self.ingredients)}\n"
         recipe_str += "Instructions:\n"
-        recipe_str += "\n".join([f" {step}" for step in self.instructions]) + "\n"
+        recipe_str += "\n".join([f" {step}" for step in self.instructions])
         
         if self.shopping_list:
             recipe_str += "Shopping List:\n"
@@ -86,6 +81,30 @@ class Recipe:
                 recipe_str += f"{item.name}; Price per Unit: ${item.price_per_unit:.2f}; Weight: {item.weight}oz; Cost per Ounce: ${item.cost_per_oz:.2f}; URL: {item.url}" + "\n"
 
         return recipe_str
+    
+    def calculate_cost_per_serving(self):
+        total_cost = 0
+        for ingredient_str in self.ingredients:
+            # Extract quantity and name from the ingredient string
+            quantity, item_name = ingredient_str.split(' of ')
+            quantity = float(quantity.split(' ')[0])
+            # Find the corresponding ShoppingListItem object
+            matching_item = next((item for item in self.shopping_list if item.name.lower() in item_name.lower()), None)
+            if matching_item:
+                # Adjust total cost based on quantity and unit in the ingredient list
+                total_cost += quantity * matching_item.cost_per_oz
+
+        return total_cost
+    
+    def update_servings_number(self, new_servings_num):
+        self.servings = new_servings_num
+        new_ingredients_list = []
+        for ingredient_str in self.ingredients:
+            quantity, item_name = ingredient_str.split(' of ')
+            new_quantity = float(quantity.split(' ')[0])  * new_servings_num
+            new_ingredients_list.append(f"{new_quantity} OZ of {item_name}")
+        self.ingredients = new_ingredients_list
+
 
 class ShoppingListItem:
     """Need to have:
@@ -147,7 +166,7 @@ def create_shopping_list(csv_path, ingredients):
           shopping_list.append(shopping_list_item)
     return shopping_list
 
-def parse_recipe_from_file(file_path):
+def parse_recipe_from_file(file_path, csv_path):
     with open(file_path, 'r') as file:
         content = file.read()
 
@@ -155,22 +174,25 @@ def parse_recipe_from_file(file_path):
     title_match = re.search(r"Title:\s*(.*)", content)
     cook_time_match = re.search(r"Cook Time:\s*(.*)", content)
     difficulty_match = re.search(r"Difficulty:\s*(.*)", content)
-    utensils_match = re.search(r"Kitchen Utensils:\s*([\s\S]*?)(?=Ingredient List:)", content)
-    ingredients_match = re.search(r"Ingredient List:\s*([\s\S]*?)(?=Instructions:)", content)
+    servings_match = re.search(r"Servings:\s*(.*)", content)
+    utensils_match = re.search(r"Kitchen Utensils:\s*([\s\S]*?)(?=Ingredients:)", content)
+    ingredients_match = re.search(r"Ingredients:\s*([\s\S]*?)(?=Instructions:)", content)
     instructions_match = re.search(r"Instructions:\s*([\s\S]*)", content)
 
     # Extract information from matches
     title = title_match.group(1).strip() if title_match else ""
     cook_time = cook_time_match.group(1).strip() if cook_time_match else ""
     difficulty = difficulty_match.group(1).strip() if difficulty_match else ""
+    servings = servings_match.group(1).strip() if difficulty_match else ""
     utensils = [line.strip('- ') for line in utensils_match.group(1).strip().split('\n')] if utensils_match else []
     ingredients = [line.strip('- ') for line in ingredients_match.group(1).strip().split('\n')] if ingredients_match else []
     instructions = [line.strip() for line in instructions_match.group(1).strip().split('\n')] if instructions_match else []
 
 
     shopping_list = create_shopping_list(csv_path, ingredients)
-    recipe_object = Recipe(title, cook_time, difficulty, utensils, ingredients, instructions, shopping_list)
+    recipe_object = Recipe(title, cook_time, difficulty, servings, utensils, ingredients, instructions, shopping_list)
 
     return recipe_object
 
-print(parse_recipe_from_file("recipes/easy_recipe.txt"))
+
+

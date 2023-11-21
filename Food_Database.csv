@@ -1,6 +1,6 @@
 item_id,item_name,price,amount,url
 242870,Roma Tomato,$4.99,3lbs,https://www.bjs.com/product/roma-tomatoes-3-lbs/3000000000000217919
-159450,Cello Carrots,$3.99,5lbs,https://www.bjs.com/product/cello-carrots-5-lbs/3000000000000215445
+159450,Cello Carrot,$3.99,5lbs,https://www.bjs.com/product/cello-carrots-5-lbs/3000000000000215445
 985451,Ground Beef,$15.49,3lbs,https://www.bjs.com/product/good-nature-85-ground-beef--3-lbs/3000000000001822361
 981061,Pork Tender Loin,$9.45,4.75lbs,https://www.bjs.com/product/wellsley-farms-boneless-fresh-pork-loin-chops--475-55-lb/3000000000000205285
 981833,Chicken Breast,$17.27,5.25lbs,https://www.bjs.com/product/wellsley-farms-no-antibiotics-ever-boneless-skinless-chicken-breast-525-75-lbs/3000000000000848594
@@ -79,12 +79,12 @@ item_id,item_name,price,amount,url
 18498,Parmesan Cheese,$8.39,24oz,https://www.bjs.com/product/kraft-grated-parmesan-cheese-24-oz/3000000000000151463
 77758,Plain Greek Yogurt,$6.29,40oz,https://www.bjs.com/product/chobani-non-fat-plain-greek-yogurt-40-oz/3000000000000610116
 253555,Sour Cream,$3.49,32oz,https://www.bjs.com/product/wellsley-farms-all-natural-sour-cream-32-oz/3000000000002440789
-100383,Gala Apples,$5.99,5lbs,https://www.bjs.com/product/wellsley-farms-gala-apples-5-lbs/3000000000000900174
-16162,Granny Smith Apples,$7.99,5lbs,https://www.bjs.com/product/wellsley-farms-organic-granny-smith-apples-5-lbs/3000000000000145103
+100383,Gala Apple,$5.99,5lbs,https://www.bjs.com/product/wellsley-farms-gala-apples-5-lbs/3000000000000900174
+16162,Granny Smith Apple,$7.99,5lbs,https://www.bjs.com/product/wellsley-farms-organic-granny-smith-apples-5-lbs/3000000000000145103
 29678,McIntosh Apples,$5.49,5lbs,https://www.bjs.com/product/wellsley-farms-mcintosh-apples-5-lbs/3000000000000186997
 100189,Red Delicious Apples,$6.99,5lbs,https://www.bjs.com/product/wellsley-farms-red-delicious-apples-5-lbs/3000000000000900170
 16169,Fuji Apples,$8.99,5lbs,https://www.bjs.com/product/wellsley-farms-organic-fuji-apples-5-lbs/3000000000000145381
-14526,Bananas,$1.49,3lbs,https://www.bjs.com/product/bananas-3-lbs/3000000000000142817
+14526,Banana,$1.49,3lbs,https://www.bjs.com/product/bananas-3-lbs/3000000000000142817
 335401,Strawberries,$5.99,2lbs,https://www.bjs.com/product/strawberries-2-lbs/3000000000000222059
 14153,Blueberries,$8.49,18oz,https://www.bjs.com/product/blueberries-18-oz/3000000000000142203
 13620,Red Grapes,$7.99,3lbs,https://www.bjs.com/product/seedless-red-grapes-3-lbs/3000000000000141801
