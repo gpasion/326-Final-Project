@@ -1,6 +1,14 @@
 # 326-Final-Project
-pip libs to run\n
-pandas\n
-mediapipe\n
-cv2_plt_imshow\n
-openai==028\n
+pip libs to run<br/>
+pandas<br/>
+mediapipe<br/>
+cv2_plt_imshow<br/>
+openai==028<br/>
+
+Also, file constants.py is needed 
+api_key = <your apikey> <br/>
+MODEL_PATH = "input_module/efficientdet_lite2.tflite" <br/>
+FOLDER_PATH = "recipes" <br/>
+INGREDIENTS_LIST_FILE_NAME = "grocery_list.txt" <br/>
+CSV_PATH = "Food_Database.csv" <br/>
+IMAGE_FOLDER = "input_image" <br/>
