@@ -1,47 +1,7 @@
-# STEP 2
-
-import openai
 import re
 import pandas as pd
-    
-
-def generate_recipe(input_path):
-    """Will take in the ingredients from the ingredients input and return a step by step recipe
-    after communicating with the GPT api
-
-    Returns:
-      txt: Will have recipe title, cook time, difficulty, kitchen utensils, ingredient list, and instructions
-    """
-    api_key = "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"
-
-    # ingredient list placeholder
-
-    with open(input_path, 'r') as file:
-        contents = file.read()
-
-    grocery_list = contents.split()
-
-    options_dict = [("easy", "15-45"), ("intermediate", "45-90"), ("advanced", "90+")]
-
-    for difficulty, time in options_dict:
-      request = f"Please use only ingredients:{' '.join(grocery_list)}, create an {difficulty} recipe that takes {time} to cook, the recipe needs to include following segmnets in order title, cook time, difficulty, servings(please use 1 serving as default), kitchen utensils(please use hyphen), ingredient section should include complete list of ingredients used in oz and have format '- <weight in oz as a number> OZ of <ingridient name>', and step by step instructions. Please keep an empty line in between of each section."
-
-      openai.api_key = api_key
-
-      completion = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages = [{"role": "user", "content": request}],
-        max_tokens = 2048
-      )
-
-      recipe_text = completion.choices[0].message['content']
-
-      # Writing the output to a file
-      file_name = f"recipes/{difficulty}_recipe.txt"
-      with open(file_name, 'w') as file:
-          file.write(recipe_text)
-
-      print(f"Recipe generated for {difficulty}. Check {file_name} for the recipe.")
+import os
+import glob
 
 
 class Recipe:
@@ -104,7 +64,6 @@ class Recipe:
             new_quantity = float(quantity.split(' ')[0])  * new_servings_num
             new_ingredients_list.append(f"{new_quantity} OZ of {item_name}")
         self.ingredients = new_ingredients_list
-
 
 class ShoppingListItem:
     """Need to have:
@@ -194,5 +153,20 @@ def parse_recipe_from_file(file_path, csv_path):
 
     return recipe_object
 
+def get_dict_of_recepies(folder_path, csv_path):
+    # Construct the pattern to match text files
+    file_pattern = os.path.join(folder_path, "*.txt")
 
+    # Get a list of all text files in the folder
+    text_files = glob.glob(file_pattern)
+
+    recipe_objects_dict = {}
+    # Process each text file
+    for id, file_path in enumerate(text_files, start=1):
+        # Instantiate a unique object for each iteration
+        recipe_object = parse_recipe_from_file(file_path, csv_path)
+
+        # Store the object in the dictionary with the current index as the key
+        recipe_objects_dict[id] = recipe_object
+    return recipe_objects_dict
 
