@@ -1,5 +1,3 @@
-# STEP 1: Import the necessary modules.
-import numpy as np
 import mediapipe as mp
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
@@ -7,6 +5,7 @@ import cv2
 from cv2_plt_imshow import cv2_plt_imshow
 from PIL import Image
 import openai
+from constants import *
 """
 Model can work with this:
 banana
@@ -15,9 +14,9 @@ orange
 broccoli
 carrot
 """
-MODEL_PATH = "input_module/efficientdet_lite2.tflite"
 
 
+### Input function, no tests needed
 def get_recipe_choice_and_serving_num():
     while True:
         recipe_choice = input("Please enter recipe number (1-3) and press Enter: ")
@@ -50,6 +49,7 @@ def get_recipe_choice_and_serving_num():
     
     return recipe_choice, num_of_servings
 
+### Input function, no tests needed
 def get_filename_or_list_input(ingredients_list_file_name):
     while True:
         image_filename = input("Enter the image file name or 'List' to input list as text: ")
@@ -72,6 +72,8 @@ def get_filename_or_list_input(ingredients_list_file_name):
         else:
             print("Image doesn't exist.")
 
+#TODO: DANYIL, TEST, check if output files have needed structure(contain all required segments in right format). Technically test for parse_recipe_from_file will handle this
+#TODO: Create some files in folder recipes_for_tests to test stuff
 def generate_recipe(input_path):
     """Will take in the ingredients from the ingredients input and return a step by step recipe
     after communicating with the GPT api
@@ -79,7 +81,6 @@ def generate_recipe(input_path):
     Returns:
       txt: Will have recipe title, cook time, difficulty, kitchen utensils, ingredient list, and instructions
     """
-    api_key = "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"
 
     # ingredient list placeholder
 
@@ -115,6 +116,7 @@ def generate_recipe(input_path):
 
       print(f"Recipe generated for {difficulty}. Check {file_name} for the recipe.")
 
+#TODO:DANYIL, TEST, check if images detect right groceries(they won't, but it's fine)
 def detect_groceries(image_filename):
     img = cv2.imread(image_filename)
     cv2_plt_imshow(img)
@@ -137,7 +139,7 @@ def detect_groceries(image_filename):
         detected_objects.append(object_name)
     return detected_objects
 
-# Function to check if the image exists
+#TODO: JOELLE TEST, techincally we just need to provide few paths where images exist/don't and make sure it can find images located withing subfolders
 def check_image_existence(filename):
     try:
         img = Image.open(filename)
@@ -146,7 +148,7 @@ def check_image_existence(filename):
     except FileNotFoundError:
         return False
 
-# Function to get the list of groceries
+### Input function, no tests needed
 def get_grocery_list(grocery_list):
     print("Enter 'Done' when you finish entering the groceries.")
     while True:
@@ -161,7 +163,7 @@ def get_grocery_list(grocery_list):
             print("-", i)
     save_list_to_file(grocery_list)
 
-# Function to save the grocery list to a text file
+#TODO: NOT SURE, Input and saves file, no tests needed???
 def save_list_to_file(grocery_list):
     confirmed = False
     while not confirmed:
@@ -182,6 +184,7 @@ def save_list_to_file(grocery_list):
         else:
             print("Invalid input. Please enter 'y' to confirm or 'n' to re-enter the list or 'exit' to exit the application.")
 
+#TODO: JOELLE TEST, provide different lists as input and make sure it always removes proper item from the list
 def remove_item(grocery_list):
     for i in grocery_list:
         print("-", i)
@@ -189,8 +192,7 @@ def remove_item(grocery_list):
     grocery_list.remove(item_to_remove.lower())
     return grocery_list
 
-
-
+### Output function, no tests needed
 def final_output(recipe_objects_dict, recipe_choice, num_of_servings):
     chosen_recipe = recipe_objects_dict[int(recipe_choice)]
     chosen_recipe.update_servings_number(int(num_of_servings))
