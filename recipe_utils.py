@@ -28,6 +28,7 @@ class Recipe:
         self.shopping_list = shopping_list
         self.cost_per_serving = self.calculate_cost_per_serving()
 
+    ### Output, no tests needed
     def __str__(self):
         recipe_str = f"Recipe Details:\nTitle: {self.title}\nCook Time: {self.cook_time} minutes\nDifficulty: {self.difficulty}\nServings: {self.servings}\nCost per serving: {self.cost_per_serving}\n"
         recipe_str += f"Utensils: {', '.join(self.utensils)}\n"
@@ -42,6 +43,7 @@ class Recipe:
 
         return recipe_str
     
+    #TODO: FOR GABE TEST, need to create a few instances of recipe(manually) and make sure it counts calculate_cost_per_serving properly(the function is run when instance created)
     def calculate_cost_per_serving(self):
         total_cost = 0
         for ingredient_str in self.ingredients:
@@ -56,6 +58,7 @@ class Recipe:
 
         return total_cost
     
+    #TODO: FOR GABE TEST, need to create a few instances of recipe(manually) and make sure it does proper math when update_servings_number is run
     def update_servings_number(self, new_servings_num):
         self.servings = new_servings_num
         new_ingredients_list = []
@@ -81,7 +84,8 @@ class ShoppingListItem:
         self.weight = self.convert_to_oz(weight)
         self.url = url
         self.cost_per_oz = self.calculate_cost_per_oz()
-      
+    
+    ### Output, no tests needed
     def __str__(self):
       return f"Shopping Item Details:\nID: {self.id}\nName: {self.name}\nPrice per Unit: ${self.price_per_unit:.2f}\nWeight: {self.weight:.2f} oz\nCost per Ounce: ${self.cost_per_oz:.2f}\nURL: {self.url}\n"
 
@@ -112,6 +116,7 @@ class ShoppingListItem:
 
       return numeric_value
   
+#TODO: ISRAEL TEST, create few lists of ingredienst manually and make sure they parse with csv properly
 def create_shopping_list(csv_path, ingredients):
     shopping_list = []
     grocery_df = pd.read_csv(csv_path)
@@ -125,6 +130,7 @@ def create_shopping_list(csv_path, ingredients):
           shopping_list.append(shopping_list_item)
     return shopping_list
 
+#TODO: ISRAEL TEST, use files in folder recipes_for_tests to make sure those parsed as expected
 def parse_recipe_from_file(file_path, csv_path):
     with open(file_path, 'r') as file:
         content = file.read()
@@ -153,6 +159,7 @@ def parse_recipe_from_file(file_path, csv_path):
 
     return recipe_object
 
+#TODO: NOT SURE, it just iterate folder for recipe files and generates dictionary of recipes, no tests needed???
 def get_dict_of_recepies(folder_path, csv_path):
     # Construct the pattern to match text files
     file_pattern = os.path.join(folder_path, "*.txt")
