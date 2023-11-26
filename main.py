@@ -1,10 +1,8 @@
 from input import *
 from recipe_utils import *
+from constants import *
 
-FOLDER_PATH = "recipes"
-INGREDIENTS_LIST_FILE_NAME = "grocery_list.txt"
-CSV_PATH = "Food_Database.csv"
-IMAGE_FOLDER = "input_image"
+
 
 
 get_filename_or_list_input(INGREDIENTS_LIST_FILE_NAME)

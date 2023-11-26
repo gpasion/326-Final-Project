@@ -5,7 +5,7 @@ import cv2
 from cv2_plt_imshow import cv2_plt_imshow
 from PIL import Image
 import openai
-from apikey import *
+from constants import *
 """
 Model can work with this:
 banana
@@ -14,7 +14,7 @@ orange
 broccoli
 carrot
 """
-MODEL_PATH = "input_module/efficientdet_lite2.tflite"
+
 
 ### Input function, no tests needed
 def get_recipe_choice_and_serving_num():
