@@ -1,6 +1,6 @@
 # 326-Final-Project
-pip libs to run
-pandas
-mediapipe
-cv2_plt_imshow
-openai==028
+pip libs to run\n
+pandas\n
+mediapipe\n
+cv2_plt_imshow\n
+openai==028\n
