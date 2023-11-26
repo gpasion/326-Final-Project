@@ -5,6 +5,7 @@ import cv2
 from cv2_plt_imshow import cv2_plt_imshow
 from PIL import Image
 import openai
+from apikey import *
 """
 Model can work with this:
 banana
@@ -80,7 +81,6 @@ def generate_recipe(input_path):
     Returns:
       txt: Will have recipe title, cook time, difficulty, kitchen utensils, ingredient list, and instructions
     """
-    api_key = "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"
 
     # ingredient list placeholder
 
