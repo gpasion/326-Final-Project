@@ -19,6 +19,16 @@ MODEL_PATH = "input_module/efficientdet_lite2.tflite"
 
 
 def get_recipe_choice_and_serving_num():
+    """Asks the user to choose between 3 different recipes and how many servings they would like to make
+
+    Returns:
+        recipe_choice (int): returns the user's choice of recipe quantity
+        num_of_servings (int): returns the user's choice of serving quantity
+
+    Side Effects:
+        Will change the recipe_choice or num_of_servings based on user input
+        Prints the num_of_servings and num of recipe_choice
+    """
     while True:
         recipe_choice = input("Please enter recipe number (1-3) and press Enter: ")
         # Check if recipe_choice is a valid integer between 1 and 3
@@ -51,6 +61,20 @@ def get_recipe_choice_and_serving_num():
     return recipe_choice, num_of_servings
 
 def get_filename_or_list_input(ingredients_list_file_name):
+    """Takes in an image file and uses the detect_groceries to translate the images into a text list of groceries
+    Creates a grocery list based on the text list of groceries (directly starts the list of groceries if the input is a text list)
+
+    Args:
+        ingredients_list_file_name (str): file name for the ingredient list
+
+    Side Effects:
+        image_filename: takes in user input for either an image file or text input for a list
+        other functions used
+            check_image_existence(): ensures that the user input file exists
+            detech_groceries(): function to return a list of detected food objects
+            save_list_to_file(): writes the list into a file called grocery_list.txt
+            generate_recipe(): creates a 3 recipes on 3 different difficulties
+    """
     while True:
         image_filename = input("Enter the image file name or 'List' to input list as text: ")
         if check_image_existence(image_filename):
@@ -116,6 +140,20 @@ def generate_recipe(input_path):
       print(f"Recipe generated for {difficulty}. Check {file_name} for the recipe.")
 
 def detect_groceries(image_filename):
+    """Takes in user inputted file name to detect and food items in the image
+
+    Args:
+        image_filename (str): takes in an image filename by the user
+
+    Returns:
+        detechted_objects (list): Returns a list of the detected food items in the image
+
+    Side Effects:
+        detector: the detector object to translate image to text
+        image: loads the input image
+        detection_result: found items from the image
+        detected_objects: list made from the detection_result
+    """
     img = cv2.imread(image_filename)
     cv2_plt_imshow(img)
 
@@ -139,6 +177,20 @@ def detect_groceries(image_filename):
 
 # Function to check if the image exists
 def check_image_existence(filename):
+    """Attempts to open the filename, if it does not open throws an exception and returns false
+
+    Args: 
+        filename (str): filename in question to see if it exists
+
+    Returns:
+        Boolean (true/false): returns true if image exists and false otherwise
+
+    Raises: 
+        FileNotFoundError: thrown when the file does not exist or is not found
+
+    Side Effects:
+        prints image opened if Image.open() worked
+    """
     try:
         img = Image.open(filename)
         print("Image opened")
@@ -148,6 +200,18 @@ def check_image_existence(filename):
 
 # Function to get the list of groceries
 def get_grocery_list(grocery_list):
+    """Used for text input of grovery list and saves the grovery list to a file
+
+    Args:
+        grocery_list (list): empty list of groceries that appends user inputted list
+
+    Side Effects:
+        Continues to prompt user to add groveries until done is stated
+        Prints the groceryl ist after every update
+        Functions used
+            remove_items(): takes in user input of a specific item in list, finds it and matches it to an item in the list and removes it
+            save_list_to_file(): saves the grocery list to a text file after prompt loop is terminated
+    """
     print("Enter 'Done' when you finish entering the groceries.")
     while True:
         item = input("Enter a grocery item, enter 'Remove' to remove item from list or type 'Done' when done entering items: ").strip()
@@ -163,6 +227,17 @@ def get_grocery_list(grocery_list):
 
 # Function to save the grocery list to a text file
 def save_list_to_file(grocery_list):
+    """Saves the inputted grocery list as a text file and asks the user for confirmation to save
+
+    Args:
+        grocery_list (list): string list of grocery items
+
+    Side Effects:
+        creates confirmed (boolean) and loops while it is false
+        if y is inputted, it will write the grocery list to a txt file and end the loop
+        prints list saved as {file_name}
+        if n inputted, it will print list is not saved
+    """
     confirmed = False
     while not confirmed:
         confirm = input("Do you want to save the list to a file? (y/n): ").lower()
@@ -183,6 +258,17 @@ def save_list_to_file(grocery_list):
             print("Invalid input. Please enter 'y' to confirm or 'n' to re-enter the list or 'exit' to exit the application.")
 
 def remove_item(grocery_list):
+    """Method responsible for item list removal updates by prompting user for the item to be removed
+
+    Args:
+        grocery_list (list): list of the groceries as a string
+    
+    Returns:
+        grocery_list (list): updated list of groceries
+
+    Side Effects:
+        prints the user input for removal
+    """
     for i in grocery_list:
         print("-", i)
     item_to_remove = input("Please enter item to remove: ")
@@ -192,6 +278,16 @@ def remove_item(grocery_list):
 
 
 def final_output(recipe_objects_dict, recipe_choice, num_of_servings):
+    """Method for the final output of the chosen recipe
+
+    Args:
+        recipe_object_dict (dict): gets dict of folder_path and csv_path of grocery database
+        recipe_choice (int): recipe choice based on difficult represented as an integer
+        num_of_servings (int): number of servings for the recipe represented as an integer
+
+    Returns:
+        recipe_str (str): The entire recipe including title, cook time, difficulty, servings, cost per serving, total cost ingredients, instructions, and shopping list
+    """
     chosen_recipe = recipe_objects_dict[int(recipe_choice)]
     chosen_recipe.update_servings_number(int(num_of_servings))
     recipe_str = f"\n\nRecipe Details:\nTitle: {chosen_recipe.title}\nCook Time: {chosen_recipe.cook_time} minutes\nDifficulty: {chosen_recipe.difficulty}\nServings: {chosen_recipe.servings}\nCost per serving: {chosen_recipe.cost_per_serving}\nTotal cost: ${f'{chosen_recipe.cost_per_serving * chosen_recipe.servings:.2f}'}\n"
