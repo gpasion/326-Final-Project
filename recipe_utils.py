@@ -30,6 +30,11 @@ class Recipe:
 
     ### Output, no tests needed
     def __str__(self):
+        '''
+        Returns a recipe string that includes descriptions regarding the recipe. Description includes cook time, ingredients, time to cook, etc.
+        Returns: 
+            recipe_str(str) recipe string that includes recipe details
+        '''
         recipe_str = f"Recipe Details:\nTitle: {self.title}\nCook Time: {self.cook_time} minutes\nDifficulty: {self.difficulty}\nServings: {self.servings}\nCost per serving: {self.cost_per_serving}\n"
         recipe_str += f"Utensils: {', '.join(self.utensils)}\n"
         recipe_str += f"Ingredients: {', '.join(self.ingredients)}\n"
@@ -45,6 +50,14 @@ class Recipe:
     
     #TODO: FOR GABE TEST, need to create a few instances of recipe(manually) and make sure it counts calculate_cost_per_serving properly(the function is run when instance created)
     def calculate_cost_per_serving(self):
+        '''
+        Itierates through the ingredient list and determines if there is a match within the shopping list.
+        Code then calculates cost per serving depending on price for each ingredient
+
+        Returns:
+            total_cost(float): Total cost per each serving
+
+        '''
         total_cost = 0
         for ingredient_str in self.ingredients:
             # Extract quantity and name from the ingredient string
@@ -60,6 +73,11 @@ class Recipe:
     
     #TODO: FOR GABE TEST, need to create a few instances of recipe(manually) and make sure it does proper math when update_servings_number is run
     def update_servings_number(self, new_servings_num):
+        '''
+        Updates the number of servings within the recipe and ingredient amount based on desired amount of servings from user
+        Args:
+            new_servings_num(int): Number that represents the amount of servings desired for the recipe. 
+        '''
         self.servings = new_servings_num
         new_ingredients_list = []
         for ingredient_str in self.ingredients:
@@ -90,11 +108,24 @@ class ShoppingListItem:
       return f"Shopping Item Details:\nID: {self.id}\nName: {self.name}\nPrice per Unit: ${self.price_per_unit:.2f}\nWeight: {self.weight:.2f} oz\nCost per Ounce: ${self.cost_per_oz:.2f}\nURL: {self.url}\n"
 
     def calculate_cost_per_oz(self):
+        '''
+        Finds the price per ounce for each item. 
+        Returns:
+            cost_per_oz(float):float that represents the cost per ounce of the tiem 
+        '''
         # Calculate cost per ounce
         cost_per_oz = self.price_per_unit / self.weight
         return round(cost_per_oz, 2)
     
     def convert_to_oz(self, weight_str):
+      '''
+      Converts the weight of the item to ounces. Item may already be in ounces, 
+      which wil not effect the weight. But item may be listed in lbs, which is when the conversion is needed.
+      Args:
+        weight_str(str): String that states the weight of the item, which can include it's unit of measurment or not
+      Returns:
+        numeric_value(float): Weight of item in ounces 
+      '''
       # Find the index where the numeric part ends
       index = next((i for i, c in enumerate(weight_str) if not c.isdigit() and c != '.'), None)
 
@@ -118,6 +149,15 @@ class ShoppingListItem:
   
 #TODO: ISRAEL TEST, create few lists of ingredienst manually and make sure they parse with csv properly
 def create_shopping_list(csv_path, ingredients):
+    '''
+    Creates a list of items based on the ingredients needed and uses a CSV file to find these ingredients 
+    Args:
+        csv_path(str): Path to CSV file
+        ingredients(list): list that includes the ingredients needed for the recipe
+    Returns:
+        shopping_list(list): list of product items based off the CSV file. 
+
+    '''
     shopping_list = []
     grocery_df = pd.read_csv(csv_path)
     for ingredient in ingredients:
@@ -132,9 +172,17 @@ def create_shopping_list(csv_path, ingredients):
 
 #TODO: ISRAEL TEST, use files in folder recipes_for_tests to make sure those parsed as expected
 def parse_recipe_from_file(file_path, csv_path):
+    '''
+    Parses through recipe details from supplied txt file and generates a recipe based on the ingredients provided 
+    Args:
+        file_path(str): Path to txt file 
+        csv_path(str): Path to the CSV file
+    Returns:
+        recipe_object: Recipe object that contains elements based on the txt file used 
+
+    '''
     with open(file_path, 'r') as file:
         content = file.read()
-
     # Use regular expressions to find matches
     title_match = re.search(r"Title:\s*(.*)", content)
     cook_time_match = re.search(r"Cook Time:\s*(.*)", content)
@@ -161,6 +209,14 @@ def parse_recipe_from_file(file_path, csv_path):
 
 #TODO: NOT SURE, it just iterate folder for recipe files and generates dictionary of recipes, no tests needed???
 def get_dict_of_recepies(folder_path, csv_path):
+    '''
+    Goes through the recipe text files in the folder 'recipes' and parses through them
+    Args:
+        folder_path(str): Path to the 'recipes' folder
+        csv_path(str): Path to the CSV file
+    Returns:
+        recipe_objects_dict(dictionary): Returns a dictionary where current index is the key 
+    '''
     # Construct the pattern to match text files
     file_pattern = os.path.join(folder_path, "*.txt")
 
