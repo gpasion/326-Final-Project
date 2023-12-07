@@ -232,4 +232,3 @@ def get_dict_of_recepies(folder_path, csv_path):
         # Store the object in the dictionary with the current index as the key
         recipe_objects_dict[id] = recipe_object
     return recipe_objects_dict
-
