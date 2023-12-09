@@ -96,8 +96,6 @@ def get_filename_or_list_input(ingredients_list_file_name):
         else:
             print("Image doesn't exist.")
 
-#TODO: DANYIL, TEST, check if output files have needed structure(contain all required segments in right format). Technically test for parse_recipe_from_file will handle this
-#TODO: Create some files in folder recipes_for_tests to test stuff
 def generate_recipe(input_path):
     """Will take in the ingredients from the ingredients input and return a step by step recipe
     after communicating with the GPT api
@@ -140,7 +138,7 @@ def generate_recipe(input_path):
 
       print(f"Recipe generated for {difficulty}. Check {file_name} for the recipe.")
 
-#TODO:DANYIL, TEST, check if images detect right groceries(they won't, but it's fine)
+
 def detect_groceries(image_filename):
     """Takes in user inputted file name to detect and food items in the image
 
@@ -227,7 +225,7 @@ def get_grocery_list(grocery_list):
             print("-", i)
     save_list_to_file(grocery_list)
 
-#TODO: NOT SURE, Input and saves file, no tests needed???
+#Input and saves file, no tests needed
 def save_list_to_file(grocery_list):
     """Saves the inputted grocery list as a text file and asks the user for confirmation to save
 
