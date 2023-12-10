@@ -12,3 +12,6 @@ FOLDER_PATH = "recipes" <br/>
 INGREDIENTS_LIST_FILE_NAME = "grocery_list.txt" <br/>
 CSV_PATH = "Food_Database.csv" <br/>
 IMAGE_FOLDER = "input_image" <br/>
+ <br/>
+ Known issue: sometimes GPT-4 will generate a file with improper structure or symbols, making regex unable to detect all required segments and crush the app.  <br/>
+ While we know how to properly handle  this (improve prompt and re do request if there is an error, unfortunately, we didn't have enough time to implement this) 
