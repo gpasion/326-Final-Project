@@ -179,7 +179,6 @@ def parse_recipe_from_file(file_path, csv_path):
         csv_path(str): Path to the CSV file
     Returns:
         recipe_object: Recipe object that contains elements based on the txt file used 
-
     '''
     with open(file_path, 'r') as file:
         content = file.read()
