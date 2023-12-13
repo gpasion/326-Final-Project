@@ -206,7 +206,7 @@ def parse_recipe_from_file(file_path, csv_path):
 
     return recipe_object
 
-#TODO: NOT SURE, it just iterate folder for recipe files and generates dictionary of recipes, no tests needed???
+
 def get_dict_of_recepies(folder_path, csv_path):
     '''
     Goes through the recipe text files in the folder 'recipes' and parses through them
