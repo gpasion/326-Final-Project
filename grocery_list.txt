@@ -1,6 +1,3 @@
-pork ribs
-potatoes
-carrots
-bell pepper
-rice
-sour cream
+apple
+banana
+carrot
